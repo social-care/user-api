@@ -3,10 +3,15 @@ let router = express.Router();
 const User = require('../model/user');
 
 router.get('/', (req, res) => {
-    User.find().lean().exec((err, users) => {
+    const name = req.query.name;
+    const motherName = req.query.motherName;
+    const birthday = req.query.birthday;
+    User.findOne({ 'name': name , 'motherName': motherName, 'birthday': birthday}, (err, user) => {
         return (err)
             ? res.status(400).json(err)
-            : res.status(200).json(users);
+            : (user)
+                ? res.status(200).json(user)
+                : res.status(404).json({'err': 'No user found.'});
     });
 });
 
@@ -25,17 +30,6 @@ router.post('/', (req, res) => {
         } else {
             res.status(201).json(user);
         }
-    });
-});
-
-router.get('/:id', (req, res) => {
-    const id = req.params.id;
-    User.findOne({ '_id': id}, (err, user) => {
-        return (err)
-            ? res.status(400).json(err)
-            : (user)
-                ? res.status(200).json(user)
-                : res.status(404).json();
     });
 });
 

@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    cpf: { type: String, require: true },
+    motherName: { type: String, require: true },
+    birthday: { type: Date, required: true },
     identifications: [{
         type: { type: String },
         number: { type: String }
